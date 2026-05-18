@@ -1,0 +1,32 @@
+# ═══════════════════════════════════════════════════════════════
+#  Gnana Gamya — Twist Mux Configuration
+#  Arbitrates between multiple /cmd_vel sources by priority.
+#  Higher priority value wins when multiple sources are active.
+#
+#  Priority order (highest wins):
+#    joystick   (100) — manual override via gamepad
+#    tracker    (20)  — object/person tracking commands
+#    navigation (10)  — Nav2 autonomous navigation
+# ═══════════════════════════════════════════════════════════════
+
+twist_mux:
+  ros__parameters:
+    topics:
+
+      # Nav2 autonomous navigation commands
+      navigation:
+        topic   : cmd_vel
+        timeout : 0.5      # seconds — stop if no message received
+        priority: 10
+
+      # Object / person tracker commands (future AI integration)
+      tracker:
+        topic   : cmd_vel_tracker
+        timeout : 0.5
+        priority: 20
+
+      # Joystick teleoperation — highest priority for safety override
+      joystick:
+        topic   : cmd_vel_joy
+        timeout : 0.5
+        priority: 100

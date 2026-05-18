@@ -1,0 +1,39 @@
+# ═══════════════════════════════════════════════════════════════
+#  Gnana Gamya — Joystick / Gamepad Teleoperation Configuration
+#
+#  Works with: joy_node + teleop_twist_joy
+#  Output topic: /cmd_vel_joy  (picked up by twist_mux at priority 100)
+#
+#  Default button mapping (generic gamepad):
+#    enable_button       : Button 6 (hold to enable movement)
+#    enable_turbo_button : Button 7 (hold for turbo speed)
+#    axis_linear.x       : Axis 1   (left stick vertical)
+#    axis_angular.yaw    : Axis 0   (left stick horizontal)
+# ═══════════════════════════════════════════════════════════════
+
+joy_node:
+  ros__parameters:
+    device_id:     0        # /dev/input/js0
+    deadzone:      0.05     # ignore small stick drift
+    autorepeat_rate: 20.0   # Hz
+
+teleop_node:
+  ros__parameters:
+    axis_linear:
+      x: 1                  # left stick vertical = forward/back
+    scale_linear:
+      x: 0.5                # m/s normal speed
+    scale_linear_turbo:
+      x: 1.0                # m/s turbo speed
+
+    axis_angular:
+      yaw: 0                # left stick horizontal = rotation
+    scale_angular:
+      yaw: 0.5              # rad/s normal
+    scale_angular_turbo:
+      yaw: 1.0              # rad/s turbo
+
+    enable_button:       6  # hold to enable movement
+    enable_turbo_button: 7  # hold for turbo
+
+    require_enable_button: true

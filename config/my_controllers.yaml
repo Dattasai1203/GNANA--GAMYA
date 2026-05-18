@@ -1,0 +1,79 @@
+# ═══════════════════════════════════════════════════════════════
+#  Gnana Gamya — ROS 2 Controller Configuration
+#  Used by: ros2_control.xacro  →  controller_manager
+# ═══════════════════════════════════════════════════════════════
+
+controller_manager:
+  ros__parameters:
+    update_rate: 30          # Hz — control loop frequency
+    use_sim_time: true
+
+    # Register the two controllers
+    diff_cont:
+      type: diff_drive_controller/DiffDriveController
+
+    joint_broad:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+
+# ───────────────────────────────────────────────────────────────
+#  Differential Drive Controller
+#  Subscribes : /diff_cont/cmd_vel_unstamped  (geometry_msgs/Twist)
+#  Publishes  : /odom                         (nav_msgs/Odometry)
+#               /diff_cont/cmd_vel_out        (optional)
+# ───────────────────────────────────────────────────────────────
+diff_cont:
+  ros__parameters:
+    publish_rate: 50.0                         # Hz — odometry publish rate
+
+    base_frame_id: base_link
+    left_wheel_names:  ['left_wheel_joint']
+    right_wheel_names: ['right_wheel_joint']
+
+    # Physical dimensions — must match robot_core.xacro
+    # wheel_separation = 2 × wheel_offset_y = 2 × 0.1485 = 0.297 m
+    wheel_separation: 0.297
+    wheel_radius: 0.033
+
+    # ── Velocity / acceleration limits (uncomment to activate) ──
+    # linear.x.has_velocity_limits:     false
+    # linear.x.has_acceleration_limits: false
+    # linear.x.has_jerk_limits:         false
+    # linear.x.max_velocity:            NAN
+    # linear.x.min_velocity:            NAN
+    # linear.x.max_acceleration:        NAN
+    # linear.x.min_acceleration:        NAN
+    # linear.x.max_jerk:                NAN
+    # linear.x.min_jerk:                NAN
+
+    # angular.z.has_velocity_limits:     false
+    # angular.z.has_acceleration_limits: false
+    # angular.z.has_jerk_limits:         false
+    # angular.z.max_velocity:            NAN
+    # angular.z.min_velocity:            NAN
+    # angular.z.max_acceleration:        NAN
+    # angular.z.min_acceleration:        NAN
+    # angular.z.max_jerk:                NAN
+    # angular.z.min_jerk:                NAN
+
+    # ── Other optional params (uncomment to override defaults) ──
+    # use_stamped_vel:              false
+    # open_loop:                    false
+    # wheels_per_side:              1
+    # wheel_separation_multiplier:  1.0
+    # left_wheel_radius_multiplier: 1.0
+    # right_wheel_radius_multiplier:1.0
+    # odom_frame_id:                odom
+    # enable_odom_tf:               true
+    # cmd_vel_timeout:              0.5
+    # publish_limited_velocity:     false
+    # velocity_rolling_window_size: 10
+
+
+# ───────────────────────────────────────────────────────────────
+#  Joint State Broadcaster
+#  Publishes : /joint_states  (sensor_msgs/JointState)
+#  No additional parameters required — broadcasts all joints.
+# ───────────────────────────────────────────────────────────────
+# joint_broad:
+#   ros__parameters:

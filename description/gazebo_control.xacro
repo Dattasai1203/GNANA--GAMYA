@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!--
+        Gazebo Differential Drive Plugin
+        ─────────────────────────────────
+        Used when use_ros2_control:=false (pure Gazebo simulation without the
+        ros2_control hardware abstraction layer).
+
+        Subscribes  : /cmd_vel  (geometry_msgs/Twist)
+        Publishes   : /odom     (nav_msgs/Odometry)
+                      /tf       (base_link → odom transform)
+                      /joint_states (via JointStatePublisher)
+
+        Physical parameters must match robot_core.xacro:
+          wheel_separation = 2 × wheel_offset_y = 2 × 0.1485 ≈ 0.297 m
+          wheel_radius     ≈ 0.031 m  (slightly less than nominal 0.033 to account
+                                        for tyre compression under load)
+    -->
+
+    <gazebo>
+        <plugin name="gz::sim::systems::DiffDrive" filename="gz-sim-diff-drive-system">
+
+            <!-- Wheel joints -->
+            <left_joint>left_wheel_joint</left_joint>
+            <right_joint>right_wheel_joint</right_joint>
+
+            <!-- Geometry (must match physical model) -->
+            <wheel_separation>0.280</wheel_separation>
+            <wheel_radius>0.031</wheel_radius>
+
+            <!-- Motion limits -->
+            <max_linear_acceleration>0.33</max_linear_acceleration>
+
+            <!-- Command velocity input -->
+            <topic>cmd_vel</topic>
+
+            <!-- Odometry output -->
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_link</child_frame_id>
+            <odom_topic>odom</odom_topic>
+            <odom_publisher_frequency>30</odom_publisher_frequency>
+
+            <!-- TF broadcast -->
+            <tf_topic>/tf</tf_topic>
+
+        </plugin>
+
+        <!-- Publish joint states for left & right drive wheels -->
+        <plugin filename="gz-sim-joint-state-publisher-system"
+                name="gz::sim::systems::JointStatePublisher">
+            <topic>joint_states</topic>
+            <joint_name>left_wheel_joint</joint_name>
+            <joint_name>right_wheel_joint</joint_name>
+        </plugin>
+    </gazebo>
+
+</robot>

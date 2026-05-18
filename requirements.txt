@@ -1,0 +1,19 @@
+# Gnana Gamya — Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Computer vision
+opencv-python>=4.8.0
+
+# Text-to-speech (offline)
+pyttsx3>=2.90
+
+# Speech recognition (uses Google Web Speech API by default)
+SpeechRecognition>=3.10.0
+pyaudio>=0.2.13          # microphone input backend for SpeechRecognition
+
+# Conversational AI (DialoGPT)
+transformers>=4.35.0
+torch>=2.0.0             # install CUDA build from pytorch.org for GPU support
+
+# Object detection (YOLOv5/v8 via Ultralytics)
+ultralytics>=8.0.0

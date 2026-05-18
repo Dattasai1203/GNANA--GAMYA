@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="gnanagamya">
+
+    <!--
+        Gnana Gamya — Top-Level URDF / Xacro Entry Point
+        ══════════════════════════════════════════════════
+        Assembles all sub-components by including the relevant xacro files.
+
+        Launch arguments:
+          use_ros2_control  (default: true)
+              true  → ros2_control.xacro  (hardware abstraction layer)
+              false → gazebo_control.xacro (raw Gazebo DiffDrive plugin)
+
+          sim_mode  (default: true)
+              true  → GazeboSimSystem hardware plugin
+              false → DiffDriveArduinoHardware (real robot USB serial)
+
+        Sensor suite included by default:
+          • 2D LiDAR   (lidar.xacro)   — 360°, 12 m range
+          • RGB Camera (camera.xacro)  — 640×480, 62° FoV
+          • Face       (face.xacro)    — decorative eyes + mouth
+
+        To use a depth camera instead of the RGB camera:
+          1. Comment out:   <xacro:include filename="camera.xacro" />
+          2. Uncomment:     <xacro:include filename="depth_camera.xacro" />
+    -->
+
+    <xacro:arg name="use_ros2_control" default="true"/>
+    <xacro:arg name="sim_mode"         default="true"/>
+
+    <!-- Core robot body: chassis, drive wheels, caster, materials -->
+    <xacro:include filename="robot_core.xacro"/>
+
+    <!-- Drive controller — ros2_control or raw Gazebo plugin -->
+    <xacro:if value="$(arg use_ros2_control)">
+        <xacro:include filename="ros2_control.xacro"/>
+    </xacro:if>
+    <xacro:unless value="$(arg use_ros2_control)">
+        <xacro:include filename="gazebo_control.xacro"/>
+    </xacro:unless>
+
+    <!-- Sensors -->
+    <xacro:include filename="lidar.xacro"/>
+    <xacro:include filename="camera.xacro"/>
+    <!-- Swap to depth camera by uncommenting the line below and commenting camera.xacro above -->
+    <!-- <xacro:include filename="depth_camera.xacro"/> -->
+
+    <!-- Decorative face elements -->
+    <xacro:include filename="face.xacro"/>
+
+</robot>
