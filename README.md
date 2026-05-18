@@ -12,9 +12,10 @@ Submitted as a Bachelor of Engineering project in **Mechatronics Engineering** a
 ## 👥 Team
 
 | Name | Roll No | Contribution |
-|---|---|---|
-| P. Anantha Padmanabban | 11219H001 | Project Report |
-| Dhulipala Datta Sai | 11219H003 | GitHub Repository & Robot Package |
+| --- | --- | --- |
+| P. Anantha Padmanabban | 11219H001 | Project Report &  AI Brain (YOLOv5, DialoGPT, TTS, ASR)|
+| Chittaluri Sai Phani Chandra | 11219H002 | Robot Package (ROS2, Gazebo Simulation, Nav2) |
+| Dhulipala Datta Sai | 11219H003 | GitHub Repository & AI Brain (YOLOv5, DialoGPT, TTS, ASR) |
 
 **Guided by:**
 - Dr. T. Lakshmibai — HOD, Dept. of Electronics & Instrumentation Engineering
